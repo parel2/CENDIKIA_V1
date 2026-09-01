@@ -1,0 +1,56 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isOwn(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    // Koleksi users/{uid}
+    match /users/{uid} {
+      read: if resource.data.uid == uid
+            || (resource.data.role == 'guru' && resource.data.isGuru == true);
+      create: if request.resource.data.uid == uid;
+      update: if resource.data.uid == uid;
+      delete: if false;
+    }
+
+    // Koleksi names/{key} - mapping nama -> uid
+    match /names/{key} {
+      read: if true;
+      create: if true;
+      update: if false;
+      delete: if false;
+    }
+
+    // Koleksi soal_custom/{id} - soal buatan guru
+    // Guru bisa baca/tulis, siswa bisa baca
+    match /soal_custom/{id} {
+      read: if true;
+      create: if true;
+      update: if true;
+      delete: if true;
+    }
+
+    // Koleksi soal_backup/{id} - backup soal
+    match /soal_backup/{id} {
+      read: if true;
+      create: if true;
+      update: if false;
+      delete: if true;
+    }
+
+    // Koleksi chapter_updates/{id} - tracking bab yang diperbarui
+    match /chapter_updates/{id} {
+      read: if true;
+      create: if true;
+      update: if true;
+      delete: if true;
+    }
+
+    // Default: tolak semua
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
