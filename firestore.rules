@@ -8,7 +8,8 @@ service cloud.firestore {
 
     // Koleksi users/{uid}
     match /users/{uid} {
-      allow read: if resource.data.uid == uid
+      allow read: if resource == null
+            || resource.data.uid == uid
             || (resource.data.role == 'guru' && resource.data.isGuru == true);
       allow create: if request.resource.data.uid == uid;
       allow update: if resource.data.uid == uid;
