@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input {
+    @apply w-full rounded-xl border-2 border-slate-200 px-4 py-3 text-lg text-slate-800 outline-none transition focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 text-lg font-semibold text-white shadow-sm transition hover:bg-emerald-700 active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-slate-100 px-6 py-3 text-lg font-semibold text-slate-700 transition hover:bg-slate-200 active:scale-[0.98];
+  }
+}
